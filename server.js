@@ -11,9 +11,13 @@ const app = express();
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log("Error connecting to MongoDB:", err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 15000, // Increase the timeout to 15 seconds
+})
+.then(() => console.log("Connected to MongoDB"))
+.catch((err) => console.log("Error connecting to MongoDB:", err));
 
 // Start the background job
 fetchCryptoData();  // Run the job once when the server starts
